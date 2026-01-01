@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
-import { fetchHealth } from '../api/health'
+import { useHealthQuery } from '../api/health'
 
-type HealthStatus = {
+// Type definition (similar to backend contracts)
+type HealthData = {
   status: string
   timestamp: string
   uptime: {
@@ -15,59 +15,33 @@ type HealthStatus = {
   version: string
 }
 
-const ServerStatus = () => {
-  const [health, setHealth] = useState<HealthStatus | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+// Private render methods (similar to backend private methods)
+const renderLoadingState = () => {
+  return (
+    <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+      <p className="text-sm text-gray-600">Checking server connection...</p>
+    </div>
+  )
+}
 
-  useEffect(() => {
-    const checkHealth = async () => {
-      try {
-        const data = await fetchHealth()
-        setHealth(data)
-        setError(null)
-      } catch {
-        setError('Cannot connect to backend server')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    checkHealth()
-    const interval = setInterval(checkHealth, 30000) // Update every 30 seconds
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
-
-  if (loading) {
-    return (
-      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-        <p className="text-sm text-gray-600">Checking server connection...</p>
+const renderErrorState = (error: unknown) => {
+  const errorMessage = error instanceof Error ? error.message : 'Cannot connect to backend server'
+  
+  return (
+    <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+      <div className="flex items-center gap-2">
+        <span className="h-2 w-2 rounded-full bg-red-500"></span>
+        <p className="text-sm font-medium text-red-800">Backend Offline</p>
       </div>
-    )
-  }
+      <p className="mt-1 text-xs text-red-600">{errorMessage}</p>
+      <p className="mt-2 text-xs text-red-600">
+        Make sure the server is running: <code className="rounded bg-red-100 px-1 py-0.5">pnpm dev:server</code>
+      </p>
+    </div>
+  )
+}
 
-  if (error) {
-    return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-4">
-        <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-red-500"></span>
-          <p className="text-sm font-medium text-red-800">Backend Offline</p>
-        </div>
-        <p className="mt-1 text-xs text-red-600">{error}</p>
-        <p className="mt-2 text-xs text-red-600">
-          Make sure the server is running: <code className="rounded bg-red-100 px-1 py-0.5">pnpm dev:server</code>
-        </p>
-      </div>
-    )
-  }
-
-  if (!health) {
-    return null
-  }
-
+const renderConnectedState = (health: HealthData) => {
   return (
     <div className="rounded-lg border border-green-200 bg-green-50 p-4">
       <div className="flex items-center gap-2">
@@ -81,6 +55,25 @@ const ServerStatus = () => {
       </div>
     </div>
   )
+}
+
+// Main component (similar to backend controller)
+const ServerStatus = () => {
+  const { data: health, isLoading, isError, error } = useHealthQuery()
+
+  if (isLoading) {
+    return renderLoadingState()
+  }
+
+  if (isError) {
+    return renderErrorState(error)
+  }
+
+  if (!health) {
+    return null
+  }
+
+  return renderConnectedState(health)
 }
 
 export default ServerStatus

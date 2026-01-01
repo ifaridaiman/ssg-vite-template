@@ -1,4 +1,5 @@
 import ServerStatus from '../components/ServerStatus'
+import ZustandChecker from '../components/ZustandChecker'
 
 const Home = () => {
   return (
@@ -11,6 +12,8 @@ const Home = () => {
       </div>
 
       <ServerStatus />
+
+      <ZustandChecker />
 
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold">Quick Links</h2>
