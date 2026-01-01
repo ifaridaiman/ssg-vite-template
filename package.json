@@ -4,7 +4,7 @@
   "private": true,
   "description": "Monorepo with React frontend and NestJS backend",
   "scripts": {
-    "dev": "pnpm --parallel --filter frontend dev & pnpm --filter server start:dev",
+    "dev": "pnpm --parallel --filter frontend dev --filter server start:dev",
     "dev:frontend": "pnpm --filter frontend dev",
     "dev:server": "pnpm --filter server start:dev",
     "build": "pnpm --filter frontend build && pnpm --filter server build",
@@ -13,7 +13,8 @@
     "lint": "pnpm --recursive lint",
     "test": "pnpm --recursive test",
     "clean": "pnpm --recursive exec rm -rf node_modules && rm -rf node_modules",
-    "install:all": "pnpm install"
+    "install:all": "pnpm install",
+    "setup": "pnpm install && cp -n frontend/.env.example frontend/.env 2>/dev/null || true && cp -n server/.env.example server/.env 2>/dev/null || true"
   },
   "engines": {
     "node": ">=18.0.0",

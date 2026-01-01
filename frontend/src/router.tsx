@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import type { RouteObject } from 'react-router-dom'
 import type { ComponentType } from 'react'
-import AppLayout from './layouts/AppLayout'
+import AppLayout from './pages/layout'
 import ErrorLayout from '../src/pages/errors/layout'
 
 type PageModule = {
