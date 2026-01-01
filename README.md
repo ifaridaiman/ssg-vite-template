@@ -1,0 +1,1 @@
+# ssg-vite-template
