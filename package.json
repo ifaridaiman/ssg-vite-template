@@ -16,11 +16,6 @@
     "install:all": "pnpm install",
     "setup": "pnpm install && cp -n frontend/.env.example frontend/.env 2>/dev/null || true && cp -n server/.env.example server/.env 2>/dev/null || true"
   },
-  "engines": {
-    "node": ">=18.0.0",
-    "pnpm": ">=8.0.0"
-  },
-  "packageManager": "pnpm@8.0.0",
   "keywords": [
     "monorepo",
     "react",
