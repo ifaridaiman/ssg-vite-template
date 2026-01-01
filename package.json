@@ -1,0 +1,33 @@
+{
+  "name": "react-vite-custom",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo with React frontend and NestJS backend",
+  "scripts": {
+    "dev": "pnpm --parallel --filter frontend dev & pnpm --filter server start:dev",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:server": "pnpm --filter server start:dev",
+    "build": "pnpm --filter frontend build && pnpm --filter server build",
+    "build:frontend": "pnpm --filter frontend build",
+    "build:server": "pnpm --filter server build",
+    "lint": "pnpm --recursive lint",
+    "test": "pnpm --recursive test",
+    "clean": "pnpm --recursive exec rm -rf node_modules && rm -rf node_modules",
+    "install:all": "pnpm install"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.0.0",
+  "keywords": [
+    "monorepo",
+    "react",
+    "vite",
+    "nestjs",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+
